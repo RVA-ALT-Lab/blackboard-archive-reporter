@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blackboard Archive Reporter</title>
+  <link rel="stylesheet" href="./css/materialize.min.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo">BlackBoard Archive Reporter</a>
+    </div>
+  </nav>
+  <main id="app" class="container">
+    <div id="studentListView" v-if="currentView === 'studentList'">
+      <h3 v-if="courseSettings">{{courseSettings.courseId}} | {{courseSettings.courseTitle}}</h2>
+        <table>
+          <tr>
+            <th>Full Name</th>
+            <th>User Name</th>
+            <th>Email Address</th>
+            <th>Student Id</th>
+            <th>UserId</th>
+            <th>Membership Id</th>
+            <th>Grade Report</th>
+          </tr>
+          <tr v-for="user in users">
+            <td>{{user.fullName}}</td>
+            <td>{{user.userName}}</td>
+            <td>{{user.emailAddress}}</td>
+            <td>{{user.studentId}}</td>
+            <td>{{user.id}}</td>
+            <td>{{user.membershipId}}</td>
+            <td><button class="waves-effect waves-light btn" @click="viewGradeReport(user)" type="button">View</button></td>
+          </tr>
+        </table>
+    </div>
+    <div id="gradeReportView" v-if="currentView === 'gradeReport' ">
+      <button class="waves-effect waves-light btn" @click="viewStudentList" type="button">Back</button>
+      <h3>Grade Report: {{selectedStudent.fullName}}</h3>
+    </div>
+  </main>
+  <script src="./js/materialize.min.js"></script>
+  <script src="./js/vue.js"></script>
+  <script src="./js/services.js"></script>
+  <script src="./js/index.js"></script>
+
+</body>
+</html>
