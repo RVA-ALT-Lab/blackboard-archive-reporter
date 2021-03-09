@@ -39,6 +39,36 @@
     <div id="gradeReportView" v-if="currentView === 'gradeReport' ">
       <button class="waves-effect waves-light btn" @click="viewStudentList" type="button">Back</button>
       <h3>Grade Report: {{selectedStudent.fullName}}</h3>
+      <table>
+        <tr>
+          <th>Title</th>
+          <th>Gradable Item Id</th>
+          <th>Is Scorable</th>
+          <th>Due Date</th>
+          <th>Date Created</th>
+          <th>Date Updated</th>
+          <th>Single Attempt</th>
+          <th>Multiple Attempts</th>
+          <th>Points Possible</th>
+          <th>Outcomes</th>
+          <th>Grade History Entries</th>
+          <th>Attempt File</th>
+        </tr>
+        <tr v-for="entry in individualGradebook">
+          <td>{{entry.title}}</td>
+          <td>{{entry.id}}</td>
+          <td>{{entry.isScorable}}</td>
+          <td>{{entry.dates.due}}</td>
+          <td>{{entry.dates.created}}</td>
+          <td>{{entry.dates.updated}}</td>
+          <td>{{entry.singleAttempt}}</td>
+          <td>{{entry.multipleAttempts}}</td>
+          <td>{{entry.pointsPossible}}</td>
+          <td>{{entry.outcomes}}</td>
+          <td>{{entry.gradebookHistoryEntries}}</td>
+          <td><a target="_blank" :href="entry.gradebookHistoryEntries.length > 0 ? entry.gradebookHistoryEntries[0].attemptFile?.filePath: '' ">{{entry.gradebookHistoryEntries.length > 0 ? entry.gradebookHistoryEntries[0].attemptFile?.filePath : ''}}</a></a></td>
+        </tr>
+      </table>
     </div>
   </main>
   <script src="./js/materialize.min.js"></script>
