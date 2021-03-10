@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blackboard Archive Reporter</title>
   <link rel="stylesheet" href="./css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
   <nav>
@@ -22,16 +23,12 @@
             <th>Email Address</th>
             <th>Student Id</th>
             <th>UserId</th>
-            <th>Membership Id</th>
-            <th>Grade Report</th>
           </tr>
           <tr v-for="user in users">
             <td>{{user.fullName}}</td>
             <td>{{user.userName}}</td>
             <td>{{user.emailAddress}}</td>
             <td>{{user.studentId}}</td>
-            <td>{{user.id}}</td>
-            <td>{{user.membershipId}}</td>
             <td><button class="waves-effect waves-light btn" @click="viewGradeReport(user)" type="button">View</button></td>
           </tr>
         </table>
@@ -41,32 +38,53 @@
       <h3>Grade Report: {{selectedStudent.fullName}}</h3>
       <table>
         <tr>
-          <th>Title</th>
-          <th>Gradable Item Id</th>
+          <th>Course Id</th>
+          <th>Assignment Title</th>
           <th>Is Scorable</th>
           <th>Due Date</th>
-          <th>Date Created</th>
-          <th>Date Updated</th>
-          <th>Single Attempt</th>
-          <th>Multiple Attempts</th>
+          <th>Student Name</th>
+          <th>User Id</th>
+          <th>Student Id</th>
           <th>Points Possible</th>
           <th>Outcomes</th>
           <th>Grade History Entries</th>
           <th>Attempt File</th>
         </tr>
         <tr v-for="entry in individualGradebook">
+          <td>{{courseSettings.courseId}}</td>
           <td>{{entry.title}}</td>
-          <td>{{entry.id}}</td>
           <td>{{entry.isScorable}}</td>
           <td>{{entry.dates.due}}</td>
-          <td>{{entry.dates.created}}</td>
-          <td>{{entry.dates.updated}}</td>
-          <td>{{entry.singleAttempt}}</td>
-          <td>{{entry.multipleAttempts}}</td>
+          <td>{{selectedStudent.fullName}}</td>
+          <td>{{selectedStudent.userName}}</td>
+          <td>{{selectedStudent.studentId}}</td>
           <td>{{entry.pointsPossible}}</td>
-          <td>{{entry.outcomes}}</td>
-          <td>{{entry.gradebookHistoryEntries}}</td>
-          <td><a target="_blank" :href="entry.gradebookHistoryEntries.length > 0 ? entry.gradebookHistoryEntries[0].attemptFile?.filePath: '' ">{{entry.gradebookHistoryEntries.length > 0 ? entry.gradebookHistoryEntries[0].attemptFile?.filePath : ''}}</a></a></td>
+          <td> 
+            <table v-if="entry.outcomes && entry.outcomes.length > 0" v-for="attempt in entry.outcomes">
+              <tr v-for="(value, key) in attempt.attempt">
+                <td>{{key}}</td>
+                <td>{{value}}</td>
+              </tr>
+            </table>
+          </td>
+          <td>
+            <table v-if="entry.gradebookHistoryEntries && entry.gradebookHistoryEntries.length > 0" v-for="historyEntry in entry.gradebookHistoryEntries">
+              <tr v-for="(value, key) in historyEntry">
+                <td>{{key}}</td>
+                <td>{{value}}</td>
+              </tr>
+            </table>
+            
+            <!-- {{entry.gradebookHistoryEntries}} -->
+          </td>
+          <td><a 
+            v-if="entry.gradebookHistoryEntries.length > 0 && entry.gradebookHistoryEntries[0].attemptFile" 
+            target="_blank" 
+            :href="entry.gradebookHistoryEntries.length > 0 ? entry.gradebookHistoryEntries[0].attemptFile?.filePath: '' "
+            >
+              <i class="meduium material-icons">attach_file</i> View Attempt File
+            </a>
+          </td>
         </tr>
       </table>
     </div>
